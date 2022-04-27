@@ -22,7 +22,7 @@ namespace Address_Book.Models
         [NotMapped]
         public string? FullName { get { return $"{FirstName} {LastName}"; } }
 
-        [Display(Name = "Birthday")]sx
+        [Display(Name = "Birthday")]
         [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
 
@@ -60,8 +60,9 @@ namespace Address_Book.Models
         [NotMapped]
         public IFormFile? ImageFile { get; set; }
 
-        //TOTO: Virtuals
-
+        //TOTO: Virtuals//
+        public virtual AppUser? AppUser { get; set; }
+        public virtual ICollection<Category> Categories { get; set; } = new HashSet<Category>();
 
     }
 }
