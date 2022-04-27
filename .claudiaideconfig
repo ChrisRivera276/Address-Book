@@ -1,6 +1,6 @@
 ﻿{
   "BackgroundImageAbsolutePath": "C:\\Users\\river\\OneDrive\\Desktop\\BackGrounds\\Streetlights.jpg",
-  "BackgroundImagesDirectoryAbsolutePath": "C:\\Users\\river\\OneDrive\\Desktop\\BackGrounds",
+  "BackgroundImagesDirectoryAbsolutePath": "c:\\users\\river\\appdata\\local\\microsoft\\visualstudio\\17.0_01103536\\extensions\\o2twx13f.jct\\Images",
   "ExpandToIDE": false,
   "Extensions": ".png, .jpg, .gif, .bmp",
   "ImageBackgroundType": 0,
@@ -10,7 +10,7 @@
   "LoopSlideshow": true,
   "MaxHeight": 686,
   "MaxWidth": 1220,
-  "Opacity": 0.2,
+  "Opacity": 0.02,
   "PositionHorizon": 2,
   "PositionVertical": 1,
   "ShuffleSlideshow": false,
