@@ -37,7 +37,8 @@ namespace Address_Book.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            AppUser appUser = await _userManager.GetUserAsync(User);
+            string appUserId = _userManager.GetUserId(User);
+            AppUser appUser = _context.Users.Include(c=>c.Contacts).ThenInclude(c=>c.Categories).FirstOrDefault(u=>u.Id ==appUserId);
 
             List<Contact> contacts = await _context.Contacts.Where(c => c.AppUserId == appUser.Id).ToListAsync();
 
@@ -46,7 +47,7 @@ namespace Address_Book.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SearchContacts(string searchString)
+        public IActionResult SearchContacts(string searchString)
         {
 
             var userId = _userManager.GetUserId(User);
@@ -92,7 +93,7 @@ namespace Address_Book.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,BirthDate,Address,Address2,City,State,ZipCode,Email,PhoneNumber,ImageFile")] Contact contact, List<int> categoryList)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,BirthDate,Address,Address2,City,State,ZipCode,Email,PhoneNumber,ImageFile.ImageData,ImageType")] Contact contact, List<int> categoryList)
         {
             ModelState.Remove("AppUserId");
             if (ModelState.IsValid)
@@ -159,7 +160,7 @@ namespace Address_Book.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,AppUserId,FirstName,LastName,BirthDate,Address,Address2,City,State,ZipCode,Email,PhoneNumber,Created,ImageData,ImageFile")] Contact contact, List<int> categoryList)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,AppUserId,FirstName,LastName,BirthDate,Address,Address2,City,State,ZipCode,Email,PhoneNumber,Created,ImageData,ImageFile,ImageType")] Contact contact, List<int> categoryList)
         {
             
             if (id != contact.Id)
