@@ -7,6 +7,7 @@ namespace Address_Book.Models
     public class Contact
     {
         public int Id { get; set; }
+        [Required]
         public string? AppUserId { get; set; }
 
         [Required]
@@ -38,6 +39,7 @@ namespace Address_Book.Models
 
         [Required]
         [Display(Name = "Zip Code")]
+        [DataType(DataType.PostalCode)]
         public int ZipCode { get; set; }
 
         [Required]
