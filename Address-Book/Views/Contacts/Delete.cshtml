@@ -1,4 +1,7 @@
 ﻿@model Address_Book.Models.Contact
+@using Address_Book.Services.Interfaces
+
+@inject IImageService ImageService
 
 @{
     ViewData["Title"] = "Delete";
@@ -8,6 +11,7 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
+    <div class="glass-cf-style darkGlass boxPadding">
     <h4>Contact</h4>
     <hr />
     <dl class="row">
@@ -81,9 +85,16 @@
             @Html.DisplayNameFor(model => model.ImageData)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImageData)
+             @if (Model.ImageData != null)
+                {
+                    <img id="contactImage" src="@ImageService.ConvertByteArrayToFile(Model.ImageData, Model.ImageType)" style="height:120px; width:120px" class="img-fluid img-thumnail">
+                }
+                else
+                {
+                    <img id="contactImage" class="img-fluid img-thumbnail mt-2" style="width:120px;height:120px" src="https://cdn.icon-icons.com/icons2/233/PNG/512/Contacts_26253.png">
+                }
         </dd>
-        <dt class = "col-sm-2">
+       @* <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ImageType)
         </dt>
         <dd class = "col-sm-10">
@@ -94,12 +105,13 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.AppUser.Id)
-        </dd>
-    </dl>
-    
+        </dd>*@
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+         <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |<a asp-action="Index">Back to List</a>
     </form>
+    </dl>
+    </div>
+    
 </div>

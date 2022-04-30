@@ -35,12 +35,23 @@ namespace Address_Book.Controllers
 
         // GET: Contacts
         [Authorize]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id)
         {
-            string appUserId = _userManager.GetUserId(User);
-            AppUser appUser = _context.Users.Include(c=>c.Contacts).ThenInclude(c=>c.Categories).FirstOrDefault(u=>u.Id ==appUserId);
+            List<Contact> contacts = new List<Contact>();
 
-            List<Contact> contacts = await _context.Contacts.Where(c => c.AppUserId == appUser.Id).ToListAsync();
+            string appUserId = _userManager.GetUserId(User);
+            AppUser appUser = _context.Users.Include(c => c.Contacts).ThenInclude(c => c.Categories).FirstOrDefault(u => u.Id == appUserId);
+
+            if (id == 0)
+            {
+                contacts = appUser.Contacts.ToList();
+            }
+            else
+            {
+                contacts = appUser.Categories.FirstOrDefault(c => c.Id == id).Contacts.ToList();
+            }
+
+            ViewData["CategoryId"] = new SelectList(appUser.Categories, "Id", "Name", id);
 
             return View(contacts);
         }

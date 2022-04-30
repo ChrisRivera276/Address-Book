@@ -5,7 +5,7 @@
 }
 
 <h1>Edit</h1>
-
+<div class="glass-cf-style darkGlass boxPadding">
 <h4>Category</h4>
 <hr />
 <div class="row">
@@ -20,7 +20,7 @@
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-2">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
@@ -30,7 +30,7 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
+</div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

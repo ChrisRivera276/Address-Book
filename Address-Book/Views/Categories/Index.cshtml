@@ -5,32 +5,30 @@
 }
 
 <h1>Index</h1>
-
+<div class="glass-cf-style darkGlass boxPadding">
 <p>
-    <a asp-action="Create">Create New</a>
+    <a type="button" asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
+            <th class="glass-cf-style-darkGlass">
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th>
-                
-            </th>
-            <th></th>
+            <th class="glass-cf-style-darkGlass"></th>
+            <th class="glass-cf-style-darkGlass"></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+            <td class="glass-cf-style-darkGlass col col-md-11">
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            <td>
+            <td class="col">
                 
             </td>
-            <td>
+            <td class="d-flex glass-cf-style-darkGlass justify-content-center col">
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
@@ -39,3 +37,4 @@
 }
     </tbody>
 </table>
+</div>

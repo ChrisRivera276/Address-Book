@@ -1,6 +1,4 @@
-﻿: root
-
-{
+﻿:root {
     --dark-gs-color: #212121;
     --light-gs-color: white;
     --highlight-gs-color: yellow;
@@ -36,11 +34,11 @@ body {
     border-right: 2px rgba(40, 40, 40, 0.35) solid;
 }
 
-    .glass-cf-style.darkGlass {
+    .glass-cf-style-darkGlass {
         color: var(--light-gs-color);
     }
 
-    .glass-cf-style.lightGlass {
+    .glass-cf-style-lightGlass {
         color: var(--dark-gs-color);
     }
 
@@ -86,4 +84,13 @@ div.form-floating label {
 
 select option {
     color: black;
+}
+
+
+
+.boxPadding {
+    padding-left: 1.5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-right: 1.5rem;
 }
