@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using Address_Book.Enums;
 using Address_Book.Services.Interfaces;
 using Address_Book.Services;
+using Address_Book.Models.ViewModels;
 
 namespace Address_Book.Controllers
 {
@@ -23,19 +24,21 @@ namespace Address_Book.Controllers
         private readonly IAddressBookService _addressBookService;
         private readonly IImageService _imageService;
         private readonly SearchService _searchService;
+        private readonly IABEmailSender _emailSender;
 
-        public ContactsController(ApplicationDbContext context, UserManager<AppUser> userManager, IAddressBookService addressBookService, IImageService imageService, SearchService searchService)
+        public ContactsController(ApplicationDbContext context, UserManager<AppUser> userManager, IAddressBookService addressBookService, IImageService imageService, SearchService searchService, IABEmailSender emailSender)
         {
             _context = context;
             _userManager = userManager;
             _addressBookService = addressBookService;
             _imageService = imageService;
             _searchService = searchService;
+            _emailSender = emailSender;
         }
 
         // GET: Contacts
         [Authorize]
-        public async Task<IActionResult> Index(int id)
+        public IActionResult Index(int id)
         {
             List<Contact> contacts = new List<Contact>();
 
@@ -58,14 +61,64 @@ namespace Address_Book.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+
+
         public IActionResult SearchContacts(string searchString)
         {
 
             var userId = _userManager.GetUserId(User);
-            List<Contact> contacts = _searchService.SearchContacts(searchString,userId).ToList();
+            List<Contact> contacts = _searchService.SearchContacts(searchString, userId).ToList();
 
             return View(nameof(Index), contacts);
         }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> EmailContact(int id)
+        {
+            Contact contact = await _context.Contacts.Include(c => c.Categories).FirstOrDefaultAsync(c=>c.Id == id);
+
+            if(contact == null)
+            {
+                return NotFound();
+            }
+
+            EmailData emailData = new()
+            {
+                EmailAddress = contact.Email,
+                FirstName = contact.FirstName,
+                LastName = contact.LastName,
+            };
+
+            EmailContactViewModel model = new()
+            {
+                Contact = contact,
+                EmailData = emailData
+            };
+
+
+
+            return View(model);
+        }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EmailContact(EmailData emailData)
+        {
+            if(ModelState.IsValid)
+            {
+                AppUser appUser = await _userManager.GetUserAsync(User);
+                string emailBody = _emailSender.ComposeEmailBody(appUser, emailData);
+
+                await _emailSender.SendEmailAsync(emailData.EmailAddress, emailData.Subject, emailBody);
+            }
+
+
+            return RedirectToAction("Index", "Contacts");
+        }
+
+
+
         // GET: Contacts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
