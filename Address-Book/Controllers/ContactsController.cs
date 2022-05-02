@@ -38,8 +38,9 @@ namespace Address_Book.Controllers
 
         // GET: Contacts
         [Authorize]
-        public IActionResult Index(int id)
+        public async Task<IActionResult> Index(int id, string swalMessage = null)
         {
+            ViewData["SwalMessage"] = swalMessage;
             List<Contact> contacts = new List<Contact>();
 
             string appUserId = _userManager.GetUserId(User);
@@ -76,9 +77,9 @@ namespace Address_Book.Controllers
         [HttpGet]
         public async Task<IActionResult> EmailContact(int id)
         {
-            Contact contact = await _context.Contacts.Include(c => c.Categories).FirstOrDefaultAsync(c=>c.Id == id);
+            Contact contact = await _context.Contacts.Include(c => c.Categories).FirstOrDefaultAsync(c => c.Id == id);
 
-            if(contact == null)
+            if (contact == null)
             {
                 return NotFound();
             }
@@ -96,25 +97,34 @@ namespace Address_Book.Controllers
                 EmailData = emailData
             };
 
-
-
             return View(model);
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EmailContact(EmailData emailData)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 AppUser appUser = await _userManager.GetUserAsync(User);
                 string emailBody = _emailSender.ComposeEmailBody(appUser, emailData);
 
-                await _emailSender.SendEmailAsync(emailData.EmailAddress, emailData.Subject, emailBody);
+                try
+                {
+                    await _emailSender.SendEmailAsync(emailData.EmailAddress, emailData.Subject, emailBody);
+                    return RedirectToAction("Index", "Contacts", new { swalMessage = "Email sent!" });
+                }
+                catch (Exception)
+                {
+                    return RedirectToAction("Index", "Contacts", new { swalMessage = "Error: Email send failed!" });
+
+                    throw;
+                }
+
+
             }
 
-
-            return RedirectToAction("Index", "Contacts");
+            return View();
         }
 
 
@@ -129,7 +139,7 @@ namespace Address_Book.Controllers
 
             Contact contact = await _context.Contacts
                 .Include(c => c.AppUser)
-                .Include(c=> c.Categories)
+                .Include(c => c.Categories)
                 .FirstOrDefaultAsync(c => c.Id == id);
             if (contact == null)
             {
@@ -191,7 +201,7 @@ namespace Address_Book.Controllers
             }
             string appUserId = _userManager.GetUserId(User);
 
-             ViewData["StatesList"] = new SelectList(Enum.GetValues(typeof(States)).Cast<States>().ToList());
+            ViewData["StatesList"] = new SelectList(Enum.GetValues(typeof(States)).Cast<States>().ToList());
             ViewData["CategoryList"] = new MultiSelectList(await _addressBookService.GetUserCategoriesAsync(appUserId), "Id", "Name");
             return View(contact);
         }
@@ -200,7 +210,7 @@ namespace Address_Book.Controllers
         [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
-  
+
             if (id == null)
             {
                 return NotFound();
@@ -226,7 +236,7 @@ namespace Address_Book.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,AppUserId,FirstName,LastName,BirthDate,Address,Address2,City,State,ZipCode,Email,PhoneNumber,Created,ImageData,ImageFile,ImageType")] Contact contact, List<int> categoryList)
         {
-            
+
             if (id != contact.Id)
             {
                 return NotFound();

@@ -10,6 +10,8 @@ using Address_Book.Data;
 using Address_Book.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Address_Book.Models.ViewModels;
+using Address_Book.Services.Interfaces;
 
 namespace Address_Book.Controllers
 {
@@ -17,11 +19,13 @@ namespace Address_Book.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IABEmailSender _emailSender;
 
-        public CategoriesController(ApplicationDbContext context, UserManager<AppUser> userManager)
+        public CategoriesController(ApplicationDbContext context, UserManager<AppUser> userManager, IABEmailSender emailSender)
         {
             _context = context;
             _userManager = userManager;
+            _emailSender = emailSender;
         }
 
         // GET: Categories
@@ -34,6 +38,48 @@ namespace Address_Book.Controllers
 
             return View(categories);
 
+        }
+
+        //Get: Categories/Email
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> EmailCategory(int id)
+        {
+            Category category = await _context.Categories.Include(c => c.Contacts).FirstOrDefaultAsync(c => c.Id == id);
+
+            List<string> emails = category.Contacts.Select(c => c.Email).ToList();
+
+            EmailData emailData = new EmailData()
+            {
+                GroupName = category.Name,
+                EmailAddress = string.Join(";", emails),
+                Subject = $"Group Mesage: - {category.Name}"
+            };
+
+            EmailCategoryViewModel model = new()
+            {
+                Contacts = category.Contacts.ToList(),
+                EmailData = emailData
+            };
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EmailCategory(EmailData emailData)
+        {
+            if(ModelState.IsValid)
+            {
+                AppUser appUser = await _userManager.GetUserAsync(User);
+                string emailBody = _emailSender.ComposeEmailBody(appUser, emailData);
+
+                await _emailSender.SendEmailAsync(emailData.EmailAddress, emailData.Subject, emailBody);
+                return RedirectToAction("Index", "Categories");
+            }
+
+            return View();
         }
 
         // GET: Categories/Details/5

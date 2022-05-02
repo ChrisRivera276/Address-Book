@@ -30,6 +30,7 @@
             </td>
             <td class="d-flex glass-cf-style-darkGlass justify-content-center col">
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="EmailCategory" asp-route-id="@item.Id" tite="Send Group Email"> <i class="bi bi-envelope text-white"></i> </a>
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
