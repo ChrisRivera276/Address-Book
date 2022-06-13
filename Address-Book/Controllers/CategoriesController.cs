@@ -30,6 +30,7 @@ namespace Address_Book.Controllers
 
         // GET: Categories
         [Authorize]
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             string userId = _userManager.GetUserId(User);
@@ -83,6 +84,8 @@ namespace Address_Book.Controllers
         }
 
         // GET: Categories/Details/5
+        [Authorize]
+        [HttpGet]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -103,6 +106,7 @@ namespace Address_Book.Controllers
 
         // GET: Categories/Create
         [Authorize]
+        [HttpGet]
         public IActionResult Create()
         {
             ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id");
@@ -183,6 +187,8 @@ namespace Address_Book.Controllers
         }
 
         // GET: Categories/Delete/5
+        [Authorize]
+        [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

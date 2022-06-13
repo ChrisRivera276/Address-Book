@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Address_Book.Controllers
 {
+    [Authorize]
     public class ContactsController : Controller
     {
         private readonly ApplicationDbContext _context;

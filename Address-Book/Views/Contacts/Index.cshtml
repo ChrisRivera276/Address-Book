@@ -22,7 +22,7 @@
     @foreach (var contact in Model!)
     {
         <div class="col contactsContainer">
-            <div class="glass-cf-style darkGlass">
+            <div class="glass-cf-style">
                 <div class="row g-0">
                     <div class="col-md-5 m-0 p-0 text-center">
                         <img src='@ImageService.ConvertByteArrayToFile(contact.ImageData!, contact.ImageType!)' class="img-fluid img-thumbnail m-3 imageBorder" style="height: 10rem;">
