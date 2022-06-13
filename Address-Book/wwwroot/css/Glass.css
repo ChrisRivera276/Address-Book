@@ -1,7 +1,7 @@
 ﻿:root {
     --dark-gs-color: #212121;
     --light-gs-color: white;
-    --highlight-gs-color: yellow;
+    --highlight-gs-color: white;
 }
 
 a {
@@ -19,14 +19,17 @@ body {
 }
 
 .pageBG {
-    background: url("/img/nick-fewings-ToCgHfEmJ5Q-unsplash - Copy.jpg");
+    background: url("/img/MarioBackround.jpg");
     background-size:cover;
+    backdrop-filter:brightness(.55)
+    
+    
 }
 
 .glass-cf-style {
     color: var(--light-gs-color);
     backdrop-filter: blur(15px);
-    background-color: rgba(153,223,255,0.144,0.17);
+    background-color: rgba(153,223,255,0.144,0.20);
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px;
     border: 2px rgba(255, 255, 255, 0.4) solid;

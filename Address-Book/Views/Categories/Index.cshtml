@@ -1,14 +1,16 @@
 ﻿@model IEnumerable<Address_Book.Models.Category>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Categories";
 }
 
-<h1>Index</h1>
+<h1>Categories</h1>
+<div class="row mb-5">
+    <div class="col-2 col-md-12">
+        <a class="glass-button" asp-action="Create">Create New</a>
+    </div>
+</div>
 <div class="glass-cf-style darkGlass boxPadding">
-<p>
-    <a type="button" asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -29,10 +31,11 @@
                 
             </td>
             <td class="d-flex glass-cf-style-darkGlass justify-content-center col">
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="EmailCategory" asp-route-id="@item.Id" tite="Send Group Email"> <i class="bi bi-envelope text-white"></i> </a>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a class="me-3" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil text-white"></i></a> 
+                <a class="me-3" asp-action="Details" asp-route-id="@item.Id"> <i class="bi bi-book text-white"></i></a> 
+                <a class="me-3" asp-action="EmailCategory" asp-route-id="@item.Id" tite="Send Group Email"> <i class="bi bi-envelope text-white"></i> </a> 
+                <a  asp-action="Delete" asp-route-id="@item.Id"> <i class="bi bi-trash text-danger"></i></a>
+                
             </td>
         </tr>
 }

@@ -8,8 +8,12 @@ namespace Address_Book.Helpers
 {
     public static class DataHelper
     {
-        private const string _tonysEmail = "tonystark@mailinator.com";
-        private const string _hanksEmail = "hankmccoy@starktower.com";
+        private const string _MariosEmail = "SuperMario@mailinator.com";
+        private const string _LuigisEmail = "SuperLuigi@mailinator.com";
+        private const string _PrincessPeachsEmail = "PrincessPeach@mailinator.com";
+        private const string _YoshisEmail = "SuperYoshi@mailinator.com";
+        private const string _ToadsEmail = "SuperToad@mailinator.com";
+        private const string _BowsersEmail = "KingBowser@mailinator.com";
         public static DateTime GetPostGresDate(DateTime datetime)
         {
             return DateTime.SpecifyKind(datetime, DateTimeKind.Utc);
@@ -32,10 +36,10 @@ namespace Address_Book.Helpers
         {
             var defaultUser = new AppUser
             {
-                UserName = _tonysEmail,
-                Email = _tonysEmail,
-                FirstName = "Tony",
-                LastName = "Stark",
+                UserName = _MariosEmail,
+                Email = _MariosEmail,
+                FirstName = "Mario",
+                LastName = "Bros.",
                 EmailConfirmed = true,
             };
             try
@@ -43,7 +47,7 @@ namespace Address_Book.Helpers
                 var user = await _userManager.FindByNameAsync(defaultUser.Email);
                 if (user is null)
                 {
-                    await _userManager.CreateAsync(defaultUser, "Abc&123!");
+                    await _userManager.CreateAsync(defaultUser, "ToadStool123!");
                 }
             }
             catch (Exception ex)
@@ -56,18 +60,18 @@ namespace Address_Book.Helpers
         }
         private static async Task SeedDefaultContacts(ApplicationDbContext context)
         {
-            var userId = context.Users.FirstOrDefault(u => u.Email == _tonysEmail)!.Id;
+            var userId = context.Users.FirstOrDefault(u => u.Email == _MariosEmail)!.Id;
             var defaultContact = new Contact
             {
                 AppUserId = userId,
                 Created = DateTime.UtcNow,
-                Email = _hanksEmail,
-                FirstName = "Henry",
-                LastName = "McCoy",
-                Address = "1407 Graymalkin Ln.",
-                City = "Salem Center",
+                Email = _LuigisEmail,
+                FirstName = "Luigi",
+                LastName = "Bros.",
+                Address = "2001 Luigi's Mansion Avenue",
+                City = "Boo Woods",
                 ZipCode = 12345,
-                State = States.NY,
+                State = States.WA,
                 PhoneNumber = "555-555-0101",
 
             };
@@ -90,11 +94,11 @@ namespace Address_Book.Helpers
         }
         private static async Task SeedDefaultCategoriesAsync(ApplicationDbContext context)
         {
-            var userId = context.Users.FirstOrDefault(u => u.Email == _tonysEmail)?.Id;
+            var userId = context.Users.FirstOrDefault(u => u.Email == _MariosEmail)?.Id;
             var defaultCategory = new Category
             {
                 AppUserId = userId,
-                Name = "X-Men"
+                Name = "Team Toadstool"
             };
             try
             {
@@ -118,9 +122,9 @@ namespace Address_Book.Helpers
             var user = context.Users
                 .Include(c => c.Categories)
                 .Include(c => c.Contacts)
-                .FirstOrDefault(u => u.Email == _tonysEmail);
+                .FirstOrDefault(u => u.Email == _MariosEmail);
             var contact = context.Contacts
-                .FirstOrDefault(u => u.Email == _hanksEmail);
+                .FirstOrDefault(u => u.Email == _LuigisEmail);
 
             if (contact != null)
             {

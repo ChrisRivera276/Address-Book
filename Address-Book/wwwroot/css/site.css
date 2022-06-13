@@ -1,5 +1,8 @@
 html {
   font-size: 14px;
+position: relative;
+  min-height: 100%;
+
 }
 
 @media (min-width: 768px) {
@@ -8,11 +11,32 @@ html {
   }
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+.navbar {
+    background-color: rgb(3, 27, 133);
 }
 
-body {
-  margin-bottom: 60px;
+
+contactsContainer{
+    height: 20rem;
+}
+
+.page-container {
+    position: relative;
+    min-height: 100vh;
+}
+
+.btn {
+    display: inline-block;
+    border: 0;
+    border-radius: 7px;
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    font-size: 1.2em;
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px;
+}
+
+.imageBorder {
+    border: 5px solid rgb(0, 161, 16);
+    border-radius: .5rem, .1rem;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }

@@ -2,8 +2,15 @@
     ViewData["Title"] = "Home Page";
 }
 <div class="container">
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p class ="glass-cf-style darkGlass boxPadding">Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <div class="text-center">
+        <h1 class="display-4 fw-bold">Welcome To AddressBook!</h1>
+        <div class="row glass-cf-style darkGlass boxPadding">
+            <div class="col">
+                <a class="glass-button" asp-controller="Contacts" asp-action="Index">Start Adding Contacts!</a>
+            </div>
+            <div class="col">
+                <a class="glass-button" href="https://portfolio-by-chris-rivera.netlify.app/">My Portfolio</a>
+            </div>
+        </div>
+    </div>
 </div>

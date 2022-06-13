@@ -1,19 +1,15 @@
 ﻿#nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Address_Book.Data;
+using Address_Book.Enums;
+using Address_Book.Models;
+using Address_Book.Models.ViewModels;
+using Address_Book.Services;
+using Address_Book.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Address_Book.Data;
-using Address_Book.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization;
-using Address_Book.Enums;
-using Address_Book.Services.Interfaces;
-using Address_Book.Services;
-using Address_Book.Models.ViewModels;
 
 namespace Address_Book.Controllers
 {
@@ -130,6 +126,8 @@ namespace Address_Book.Controllers
 
 
         // GET: Contacts/Details/5
+        [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -151,6 +149,7 @@ namespace Address_Book.Controllers
         }
 
         // GET: Contacts/Create
+        [HttpGet]
         [Authorize]
         public async Task<IActionResult> Create()
         {
@@ -161,9 +160,7 @@ namespace Address_Book.Controllers
             return View();
         }
 
-        // POST: Contacts/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Contacts/Create        
         [HttpPost]
         [ValidateAntiForgeryToken]
 
@@ -181,7 +178,7 @@ namespace Address_Book.Controllers
                 }
                 if (contact.ImageFile != null)
                 {
-                    //TODO: IMAGE SERVICE
+                    
                     contact.ImageData = await _imageService.ConvertFileToByteArrayAsync(contact.ImageFile);
                     contact.ImageType = contact.ImageFile.ContentType;
 
@@ -207,6 +204,7 @@ namespace Address_Book.Controllers
         }
 
         // GET: Contacts/Edit/5
+        [HttpGet]
         [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -294,6 +292,8 @@ namespace Address_Book.Controllers
         }
 
         // GET: Contacts/Delete/5
+        [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
